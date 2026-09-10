@@ -1,26 +1,39 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
-
+ 
 from core import calculos as calc
+ 
+st.set_page_config(page_title="LGR · Calculadora de Sistemas de Controle")
 
-st.set_page_config(page_title="LGR· Calculadora de Sistemas de Controle")
 st.markdown("""
 <style>
 :root {
-    --pink-primary: #d6336c;
-    --pink-primary-dark: #a61e4d;
-    --pink-light: #fff0f6;
-    --pink-card: #ffe3ef;
-    --pink-border: #f5c2dd;
+    --green-primary: #27ae60;
+    --green-primary-dark: #1e5f35;
+    --green-light: #ecf5ed;
+    --green-card: #deecd5;
+    --green-border: #c2ddd0;
 }
-.stApp { background-color: var(--pink-light); }
-h1, h2, h3 { color: var(--pink-primary-dark) !important; }
-.katex-display { text-align: left !important; }
-
+ 
+/* Fundo geral */
+.stApp { 
+    background-color: var(--green-light); 
+}
+ 
+/* Títulos */
+h1, h2, h3 { 
+    color: var(--green-primary-dark) !important; 
+}
+ 
+/* Math display */
+.katex-display { 
+    text-align: left !important; 
+}
+ 
+/* Botões */
 div.stButton > button:first-child {
-    background-color: var(--pink-primary);
+    background-color: var(--green-primary);
     color: white;
     font-weight: 700;
     border: none;
@@ -28,46 +41,109 @@ div.stButton > button:first-child {
     padding: 0.7rem 2rem;
     font-size: 1.05rem;
     width: 100%;
+    transition: all 0.3s ease;
 }
-div.stButton > button:first-child:hover { background-color: var(--pink-primary-dark); color: white; }
-
+ 
+div.stButton > button:first-child:hover { 
+    background-color: var(--green-primary-dark); 
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+ 
+/* Expanders */
 [data-testid="stExpander"] {
     background-color: white;
     border-radius: 10px;
-    border: 1px solid var(--pink-border);
+    border: 1px solid var(--green-border);
     margin-bottom: 0.5rem;
 }
+ 
 [data-testid="stVerticalBlockBorderWrapper"] {
     border-radius: 12px;
 }
+ 
+/* Cards */
 .card {
     background: white;
     border-radius: 12px;
     padding: 1.1rem 1.3rem;
-    border: 1px solid var(--pink-border);
+    border: 1px solid var(--green-border);
     margin-bottom: 0.8rem;
 }
+ 
 .destaque {
     background: white;
     border-radius: 12px;
     padding: 1rem 1.3rem;
-    border-left: 6px solid var(--pink-primary);
+    border-left: 6px solid var(--green-primary);
     margin-bottom: 0.6rem;
 }
-.destaque .label { font-size: 0.8rem; color: #a6336c; font-weight: 600; text-transform: uppercase; }
-.destaque .valor { font-size: 1.4rem; color: #3b0a20; font-weight: 700; }
-.stTabs [data-baseweb="tab-list"] { gap: 4px; }
+ 
+.destaque .label { 
+    font-size: 0.8rem; 
+    color: var(--green-primary-dark); 
+    font-weight: 600; 
+    text-transform: uppercase; 
+}
+ 
+.destaque .valor { 
+    font-size: 1.4rem; 
+    color: var(--green-primary-dark); 
+    font-weight: 700; 
+}
+ 
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] { 
+    gap: 4px; 
+}
+ 
 .stTabs [data-baseweb="tab"] {
-    background-color: var(--pink-card);
+    background-color: var(--green-card);
     border-radius: 8px 8px 0 0;
     padding: 8px 16px;
+    color: var(--green-primary-dark);
+    font-weight: 600;
 }
-.stTabs [aria-selected="true"] { background-color: var(--pink-primary) !important; color: white !important; }
+ 
+.stTabs [data-baseweb="tab"][aria-selected="true"] {
+    background-color: var(--green-primary);
+    color: white;
+}
+ 
+/* Sidebar */
+.sidebar .sidebar-content {
+    background-color: var(--green-light);
+}
+ 
+/* Info, success, warning, error */
+.stAlert {
+    border-radius: 10px;
+}
+ 
+/* Divider */
+hr {
+    border-color: var(--green-border) !important;
+}
+ 
+/* Inputs */
+input[type="text"], 
+input[type="number"], 
+textarea {
+    border-color: var(--green-border) !important;
+}
+ 
+input[type="text"]:focus, 
+input[type="number"]:focus, 
+textarea:focus {
+    border-color: var(--green-primary) !important;
+    box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1) !important;
+}
+ 
 </style>
 """, unsafe_allow_html=True)
-
 st.title("LGR")
-st.caption("Calculadora de Lugar Geométrico das Raízes — Maria Luiza da costa barbosa")
+st.caption("Calculadora de Lugar Geométrico das Raízes — Lucas Henrique Alves de Queiroz")
 
 # ============================================================
 # Entrada do sistema
